@@ -1,5 +1,5 @@
 import { compare } from "bcrypt";
-import { sign, decode, verify } from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 
 import { prisma } from "../../../database/prismaClient";
 
@@ -26,7 +26,7 @@ export class AuthenticateClientUseCase {
       throw new Error("Username or password invalid");
     };
 
-    const token = sign({ username }, "0aa9d09d0e9281cd798f10e8864552e1", {
+    const token = sign({ username }, String(process.env.JWT_HASH), {
       subject: client.id,
       expiresIn: '1d'
     });

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CraeteClientUseCases } from "./CreatClientUseCase";
+import { CreateClientUseCase } from "./CreatClientUseCase";
 
 export class CreateClientController {
   async handle(req: Request, res: Response) {
@@ -8,7 +8,7 @@ export class CreateClientController {
       password
     } = req.body;
 
-    const createClientUseCase = new CraeteClientUseCases();
+    const createClientUseCase = new CreateClientUseCase();
 
     const result = await createClientUseCase.execute({
       username,

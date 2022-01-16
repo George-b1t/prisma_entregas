@@ -3,31 +3,31 @@ import { sign } from "jsonwebtoken";
 
 import { prisma } from "../../../database/prismaClient";
 
-interface IAuthenticateClient {
+interface IAuthenticateDeliveryman {
   username: string;
   password: string;
 };
 
-export class AuthenticateClientUseCase {
-  async execute({ username, password }: IAuthenticateClient ) {
-    const client = await prisma.clients.findUnique({
+export class AuthenticateDeliverymanUseCase {
+  async execute({ username, password }: IAuthenticateDeliveryman ) {
+    const deliveryman = await prisma.deliveryman.findUnique({
       where: {
         username
       }
     });
 
-    if ( !client ) {
+    if ( !deliveryman ) {
       throw new Error("Username or password invalid");
     };
 
-    const isValidPassword = await compare(password, client.password);
+    const isValidPassword = await compare(password, deliveryman.password);
 
     if ( !isValidPassword ) {
       throw new Error("Username or password invalid");
     };
 
-    const token = sign({ username }, String(process.env.JWT_HASH_CLIENT), {
-      subject: client.id,
+    const token = sign({ username }, String(process.env.JWT_HASH_DELIVERYMAN), {
+      subject: deliveryman.id,
       expiresIn: '1d'
     });
 
